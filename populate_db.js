@@ -58,7 +58,7 @@ const insertJsonObject = (i) => {
   })
 }
 let t1 = new Date() 
-let limit = 100000
+let limit = 1
 for ( let i = 0; i < limit; i++ ) {
   insertJsonObject(i)
 }
