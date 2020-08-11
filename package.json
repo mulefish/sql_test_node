@@ -1,7 +1,7 @@
 {
   "name": "api-postgres",
   "version": "1.0.0",
-  "description": "RESTful API w/ node.js, express and postgresql",
+  "description": "Simple postgres + express",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
