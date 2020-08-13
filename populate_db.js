@@ -34,12 +34,13 @@ const makeJsonBall = () => {
     }
     array.push(obj)
   }
-  return {"systemStatus":array }
+  return {"systemStatuses":array }
 }
 
 const insertJsonObject = (i) => {
   const obj = makeJsonBall() 
-  pool.query('INSERT INTO test_table (info) VALUES($1)', [obj], (error, results) => {
+  //pool.query('INSERT INTO test_table (info) VALUES($1)', [obj], (error, results) => {  
+  pool.query('INSERT INTO test_table_100 (info) VALUES($1)', [obj], (error, results) => {
     if (error) {
       console.log("Error " + error )
       pool.end()
@@ -57,10 +58,41 @@ const insertJsonObject = (i) => {
     }
   })
 }
-let t1 = new Date() 
-let limit = 1
-for ( let i = 0; i < limit; i++ ) {
-  insertJsonObject(i)
+
+const insertJsonObject2 = (i) => {
+  const obj = makeJsonBall() 
+  //pool.query('INSERT INTO test_table (info) VALUES($1)', [obj], (error, results) => {  
+
+  inserttime = 1000000000 + Math.random() * 1000000000
+
+  pool.query('INSERT INTO test_table_10 (pdoc, inserttime) VALUES($1, $2)', [obj, inserttime], (error, results) => {
+    if (error) {
+      console.log("Error " + error )
+      pool.end()
+    } else {
+      if ( i > 0 && i % 1000 == 0 ) {
+        let t2 = new Date() 
+        let elapsed = t2.getTime() - t1.getTime() 
+        t1 = t2
+        console.log( " Passing " + i + " of " + limit + " in (ms) " + elapsed )
+      }
+      if ( i >= ( limit - 1 ) ) {
+        console.log(" Exiting now")
+        pool.end()
+      }
+    }
+  })
 }
+
+
+
+let t1 = new Date() 
+let limit = 2
+for ( let i = 0; i < limit; i++ ) {
+  insertJsonObject2(i)
+}
+
+
+
 
 

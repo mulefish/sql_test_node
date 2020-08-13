@@ -11,8 +11,15 @@ psql -d postgres -U me
 # STEP1 Populate DB ( only 1 time needed ) 
 node populate_db.js
 
-# table
-CREATE TABLE orders (
+# tables 
+CREATE TABLE test_table (
 ID serial NOT NULL PRIMARY KEY,
 info json NOT NULL
 );
+
+CREATE TABLE test_table_100 (
+ID serial NOT NULL PRIMARY KEY,
+info json NOT NULL
+);
+
+

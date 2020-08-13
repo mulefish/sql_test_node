@@ -33,11 +33,23 @@ const do_arbitury_sql = (sql, msg) => {
             console.log( error )
         } else {
             const delta = new Date().getTime() - begin
-            console.log( "MS: ", delta, " COUNT ", results.rows.length, " ", msg )
+            results.rows.forEach((row, i)=>{
+                const ary = row["info"]["systemStatus"]
+                console.log( ary ) 
+                console.log("\n")
+            })
             pool.end()
         }
     })
 }
 
-get_count()
 
+// const tricksy_sql = "select jsonb_build_object('pdoc', t.info) from test_table_100 t limit 2 "
+const tricksy_sql = `
+select t.info from test_table_100 t 
+CROSS JOIN LATERAL ( select elem from t.info #> '{systemStatus}' a(elem)
+WHERE a.elem #>> '{timestamp}' > 0 order by a.elem #>> '{timestamp}' 
+`
+
+//get_count()
+do_arbitury_sql(tricksy_sql)
