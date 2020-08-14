@@ -36,8 +36,11 @@ const do_arbitury_sql = (sql, limit) => {
 //do_arbitury_sql(tricksy_sql)
 
 
-const easy_mode_sql = "select* from dummy_payments2"
-const show_limit = 1 
-do_arbitury_sql(easy_mode_sql, show_limit)
+//const easy_mode_sql = "select* from dummy_payments2"
+//const show_limit = 1 
+//do_arbitury_sql(easy_mode_sql, show_limit)
+
+const tricksy_sql = `select * from dummy_payments2 t `
+do_arbitury_sql(tricksy_sql, 1)
 
 
