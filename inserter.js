@@ -32,7 +32,7 @@ const insertJsonObject = (i, limit ) => {
 
 
 let t1 = new Date() 
-let limit = 2
+let limit = 100000
 for ( let i = 0; i < limit; i++ ) {
   insertJsonObject(i, limit)
 }

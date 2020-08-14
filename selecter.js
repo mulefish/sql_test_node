@@ -14,7 +14,7 @@ const do_arbitury_sql = (sql, limit) => {
             const delta = new Date().getTime() - begin
             results.rows.forEach((row, i)=>{
                 if ( i < limit ) {
-//                    console.log( row )
+                    //console.log( row )
                     for ( let k in row['pdoc'] ) {
                         let v = row['pdoc'][k]
                         type = typeof v
@@ -26,12 +26,16 @@ const do_arbitury_sql = (sql, limit) => {
                             if ( v == null ) {
                                 // console.log("NULL for " + k )
                             } else {
-                                console.log(  "\t" + k + ":"+ JSON.stringify( v ))
+                                console.log(  "\n\n................\n" + k + ":"+ JSON.stringify( v ))
                             }
                         }
                     }
                 }    
             })
+
+            // console.log(" 55 " + JSON.stringify(results.rows[55])) 
+
+            console.log("FOUND " + results.rows.length + " MS " + delta ) 
             pool.end()
         }
     })
