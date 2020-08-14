@@ -14,7 +14,22 @@ const do_arbitury_sql = (sql, limit) => {
             const delta = new Date().getTime() - begin
             results.rows.forEach((row, i)=>{
                 if ( i < limit ) {
-                    console.log( JSON.stringify( row['pdoc'] ) )
+//                    console.log( row )
+                    for ( let k in row['pdoc'] ) {
+                        let v = row['pdoc'][k]
+                        type = typeof v
+                        if ( type == 'number') {
+                            console.log(  k + ":" + v)
+                        } else if ( type == 'string') {
+                            console.log(  k + ":" + v )
+                        } else if ( type == 'object') {
+                            if ( v == null ) {
+                                // console.log("NULL for " + k )
+                            } else {
+                                console.log(  "\t" + k + ":"+ JSON.stringify( v ))
+                            }
+                        }
+                    }
                 }    
             })
             pool.end()
@@ -26,21 +41,27 @@ const do_arbitury_sql = (sql, limit) => {
 
 
 
-// const tricksy_sql = "select jsonb_build_object('pdoc', t.info) from test_table_100 t limit 2 "
-// const tricksy_sql = `
-// select t.info from dummy_payments2 t 
-// CROSS JOIN LATERAL ( select elem from t.info #> '{systemStatus}' a(elem)
-// WHERE a.elem #>> '{timestamp}' > 0 order by a.elem #>> '{timestamp}') 
-// `
-//get_count()
-//do_arbitury_sql(tricksy_sql)
+//do_arbitury_sql('select * from dummy_payments2 limit1 ', 1 )
 
 
-//const easy_mode_sql = "select* from dummy_payments2"
-//const show_limit = 1 
-//do_arbitury_sql(easy_mode_sql, show_limit)
 
-const tricksy_sql = `select * from dummy_payments2 t `
-do_arbitury_sql(tricksy_sql, 1)
+const t1 = 1000000000
+const t2 = 2000000000
+const t3 = 2000000000
+
+const ugly_select = `select pdoc, x.elem from dummy_payments2 t
+cross join lateral (
+    select elem
+    from jsonb_array_elements(t.pdoc #> '{systemStatuses}') a(elem)
+        where a.elem #>> '{timeStamp}' <= '${t3}'
+        and a.elem #>> '{statusCode}' IN ('C01', 'S03') order by a.elem #>> '{timeStamp}' LIMIT 1 
+    )x
+    where ( pdoc #>> '{insertDtTm}')::double precision BETWEEN '${t1}' and '${t2}'
+        and x.elem #>> '{statusCode}' != 'never find me'
+        and ( pdoc #>> '{source}' not in ('nope')
+)
+`
+do_arbitury_sql(ugly_select, 1 )
+
 
 
