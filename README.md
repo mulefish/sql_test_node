@@ -23,3 +23,9 @@ info json NOT NULL
 );
 
 
+CREATE TABLE test_table_10 (
+ID serial NOT NULL PRIMARY KEY,
+pdoc json NOT NULL,
+inserttime bigint NULL
+);
+

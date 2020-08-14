@@ -120,8 +120,10 @@ const getEnrollmentSourceSystem=()=>{
     // I don't think this matters: just return the string 'RBMS'
     return "RBMS"    
 }
-
-const getModel = () => { 
+////////////////////////////////////////////////////////////////////////
+//////////////////////// THIS is the only 'public' function in this file
+////////////////////////////////////////////////////////////////////////
+const getPdoc = () => { 
     const n = 1 + Math.random() * 5 
     the_source = getSource(MIGRATED_PERCENT)
 
@@ -165,9 +167,9 @@ const getModel = () => {
 
 if (!module.parent) {
     // self test
-    let x = getModel() 
+    let x = getPdoc() 
     console.log( JSON.stringify(x, null, 2 ) )
 }
 module.exports = {
-    getModel
+    getPdoc
 }

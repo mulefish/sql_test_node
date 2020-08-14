@@ -59,6 +59,9 @@ const insertJsonObject = (i) => {
   })
 }
 
+
+
+
 const insertJsonObject2 = (i) => {
   const obj = makeJsonBall() 
   //pool.query('INSERT INTO test_table (info) VALUES($1)', [obj], (error, results) => {  
@@ -78,7 +81,7 @@ const insertJsonObject2 = (i) => {
       }
       if ( i >= ( limit - 1 ) ) {
         console.log(" Exiting now")
-        pool.end()
+        //pool.end()
       }
     }
   })
@@ -89,7 +92,7 @@ const insertJsonObject2 = (i) => {
 let t1 = new Date() 
 let limit = 2
 for ( let i = 0; i < limit; i++ ) {
-  insertJsonObject2(i)
+  insertJsonObject(i)
 }
 
 
